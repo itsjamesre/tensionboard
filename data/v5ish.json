@@ -1,0 +1,123 @@
+{
+	"V5ish" :
+	{
+		"config" :
+		{
+			"setNum": 6
+		},
+		"Set 1" :
+		{
+			"config" :
+			{
+				"hangTime" : 7,
+				"restTime" : 2,
+				"repMax" : 7
+			},
+			"Left" : 
+			{
+				"edge": "35mm",
+				"style": "4 Finger Open"
+			},
+			"Right" :
+			{
+				"edge": "35mm",
+				"style": "4 Finger Open"	
+			}
+		},
+		"Set 2" :
+		{
+			"config" :
+			{
+				"hangTime" : 7,
+				"restTime" : 2,
+				"repMax" : 7
+			},
+			"Left" : 
+			{
+				"edge": "Jug",
+				"style": "4 Finger Open"
+			},
+			"Right" :
+			{
+				"edge": "Flat Top",
+				"style": "4 Finger Open"	
+			}
+		},
+		"Set 3" :
+		{
+			"config" :
+			{
+				"hangTime" : 7,
+				"restTime" : 2,
+				"repMax" : 7
+			},
+			"Left" : 
+			{
+				"edge": "35mm",
+				"style": "4 Finger Open"
+			},
+			"Right" :
+			{
+				"edge": "35mm",
+				"style": "4 Finger Open"	
+			}
+		},
+		"Set 4" :
+		{
+			"config" :
+			{
+				"hangTime" : 7,
+				"restTime" : 2,
+				"repMax" : 7
+			},
+			"Left" : 
+			{
+				"edge": "Flat Top",
+				"style": "4 Finger Open"
+			},
+			"Right" :
+			{
+				"edge": "Jug",
+				"style": "4 Finger Open"	
+			}
+		},
+		"Set 5" :
+		{
+			"config" :
+			{
+				"hangTime" : 7,
+				"restTime" : 2,
+				"repMax" : 7
+			},
+			"Left" : 
+			{
+				"edge": "25mm",
+				"style": "2 Middle Fingers"
+			},
+			"Right" :
+			{
+				"edge": "25mm",
+				"style": "2 Middle Fingers"
+			}
+		},
+		"Set 6" :
+		{
+			"config" :
+			{
+				"hangTime" : 7,
+				"restTime" : 2,
+				"repMax" : 7
+			},
+			"Left" : 
+			{
+				"edge": "25mm",
+				"style": "2 First Fingers"
+			},
+			"Right" :
+			{
+				"edge": "25mm",
+				"style": "2 First Fingers"
+			}
+		}
+	}
+}
