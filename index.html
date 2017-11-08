@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+  <script src="bower_components/angular-timer/dist/assets/js/angular-timer-bower.js"></script>
+  <script src="bower_components/angular-timer/dist/assets/js/angular-timer-all.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  	<h1>My First Bootstrap Page</h1>
+  	<p>This is some text.</p> 
+	<div ng-app="myApp" ng-controller="myCtrl">
+		{{ firstName + " " + lastName }}
+		<h3><timer countdown="10" interval="1000">{{countdown}}</timer></h3>
+		<button ng-click="add5Seconds()">Add 5 Seconds</button>
+	</div>
+</div>
+
+<script>
+var app = angular.module("myApp", ["timer"]);
+app.controller("myCtrl", function($scope) {
+    $scope.firstName = "John";
+    $scope.lastName = "Doe";
+    $scope.add5Seconds = function () {
+        $scope.$broadcast('timer-add-cd-seconds', 5);
+    }
+});
+</script>
+
+</body>
+</html>
