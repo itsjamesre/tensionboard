@@ -15,50 +15,83 @@
 <div class="container">
   	<h1>Tension Board</h1>
 	<div ng-app="myApp" ng-controller="myCtrl">
+		  	<button ng-click="loadWorkout()" ng-repeat="(key, value) in workouts ">
+		    	{{ key }}
+		  	</button> 
 		<h3>Set {{ set }}</h3>
 		<h3>Rep {{ rep }}</h3>
 		<h3><timer autostart="false" countdown="10" interval="1000" finish-callback="intervalCallback()">{{countdown}}</timer></h3>
 		<h3>Status {{status}}</h3>
+        <button ng-click="startTimer()" ng-disabled="timerRunning">Start Timer</button>
+        <button ng-click="stopTimer()" ng-disabled="!timerRunning">Stop Timer</button>
 	</div>
 </div>
 
 <script>
 var app = angular.module("myApp", ["timer"]);
 app.controller("myCtrl", function($scope, $http) {
+	$scope.firstRun = true;
 	$scope.tensionBoard = null;
+	$scope.workouts = null;
 	$http
 	({
       method: 'GET',
       url: 'data/tension-board.json'
   	}).then(function (success) {
             $scope.tensionBoard = success.TensionBoard;
+            $scope.workouts = success.data.Workouts;
     },function (error, data, status, headers, config) {
-        //  Do some error handling here
+    	console.log(error);
     });
 
 	$scope.hangTime = 7;
-    $scope.restRepTime = 2;
+    $scope.restRepTime = 3;
     $scope.restSetTime = 60;
-    $scope.repMax = 6;
+    $scope.repMax = 2;
+    $scope.setMax = 2;
     $scope.set = 1;
     $scope.rep = 1;
-    $scope.status = "Hang";
+    $scope.status = "Wait for it...";
+
+	$scope.loadWorkout = function(){
+		console.log(this.key);
+		var myWorkout = $scope.workouts[this.key];
+		console.log(myWorkout);
+	}
+
     $scope.intervalCallback = function() {
-    	if ($scope.status == "Hang") {
-    		if ($scope.rep == $scope.repMax) {
-		    	$scope.$broadcast('timer-add-cd-seconds', $scope.restSetTime);
-		    	$scope.set++;
-		    	$scope.rep = 1;
-    		} else {
-		    	$scope.$broadcast('timer-add-cd-seconds', $scope.restRepTime);
-		    }
-	    	$scope.status = "Rest";
-    	} else {
+    	if (!$scope.firstRun) {
+	    	if ($scope.status == "Hang") {
+	    		if ($scope.rep == $scope.repMax) {
+			    	$scope.$broadcast('timer-add-cd-seconds', $scope.restSetTime);
+			    	$scope.set++;
+			    	$scope.rep = 0;
+	    		} else {
+			    	$scope.$broadcast('timer-add-cd-seconds', $scope.restRepTime);
+			    }
+		    	$scope.status = "Rest";
+	    	} else {
+		    	$scope.$broadcast('timer-add-cd-seconds', $scope.hangTime);
+		    	$scope.rep++;
+		    	$scope.status = "Hang";    		
+	    	}
+	    } else {
 	    	$scope.$broadcast('timer-add-cd-seconds', $scope.hangTime);
-	    	$scope.rep++;
-	    	$scope.status = "Hang";    		
-    	}
+	    	$scope.status = "Hang";  
+	    }
+	    $scope.firstRun = false;
     }
+
+    $scope.timerRunning = false;
+    $scope.startTimer = function (){
+        $scope.$broadcast('timer-start');
+        $scope.timerRunning = true;
+    };
+
+    $scope.stopTimer = function (){
+        $scope.$broadcast('timer-stop');
+        $scope.timerRunning = false;
+    };
 });
 </script>
 
