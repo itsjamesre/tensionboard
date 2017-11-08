@@ -2,116 +2,116 @@
 	"TensionBoard" :
 	{
 		"Left" : {
-			"row" : 
+			"row1" : 
 			{
-				"holdtype": {
+				"Jug": {
 					"edge": "Jug",
 					"size": "4 Finger"
 				},
-				"holdtype": {
+				"Flat Top": {
 					"edge": "Flat Top",
 					"size": "4 Finger"
 				}
 			},
-			"row" :
+			"row2" :
 			{
-				"holdtype": {
+				"7mm Incut": {
 					"edge": "7mm",
 					"size": "4 Finger"
 				},
-				"holdtype": {
+				"35mm Edge": {
 					"edge": "35mm",
 					"size": "4 Finger"
 				}
 			},
-			"row" :
+			"row3" :
 			{
-				"holdtype": {
+				"20mm Edge": {
 					"edge": "20mm",
 					"size": "4 Finger"
 				},
-				"holdtype": {
+				"45mm Mono": {
 					"edge": "45mm",
 					"size": "1 Finger"
 				},
-				"holdtype": {
+				"25mm Pocket": {
 					"edge": "25mm",
 					"size": "2 Finger"
 				},
-				"holdtype": {
+				"30mm Edge": {
 					"edge": "30mm",
 					"size": "4 Finger"
 				}
 			},
-			"row" :
+			"row4" :
 			{
-				"holdtype": {
+				"15mm Edge": {
 					"edge": "15mm",
 					"size": "4 Finger"
 				},
-				"holdtype": {
+				"10mm Edge": {
 					"edge": "10mm",
 					"size": "4 Finger"
 				},
-				"holdtype": {
+				"22mm Edge": {
 					"edge": "22mm",
 					"size": "4 Finger"
 				}
 			}
 		},
 		"Right" : {
-			"row" : 
+			"row1" : 
 			{
-				"holdtype": {
+				"Flat Top": {
 					"edge": "Flat Top",
 					"size": "4 Finger"
 				},
-				"holdtype": {
+				"Jug": {
 					"edge": "Jug",
 					"size": "4 Finger"
 				}
 			},
-			"row" :
+			"row2" :
 			{
-				"holdtype": {
+				"7mm Incut": {
 					"edge": "7mm",
 					"size": "4 Finger"
 				},
-				"holdtype": {
+				"35mm Edge": {
 					"edge": "35mm",
 					"size": "4 Finger"
 				}
 			},
-			"row" :
+			"row3" :
 			{
-				"holdtype": {
+				"30mm Edge": {
 					"edge": "30mm",
 					"size": "4 Finger"
 				},
-				"holdtype": {
+				"20mm Edge": {
 					"edge": "20mm",
 					"size": "4 Finger"
 				},
-				"holdtype": {
+				"45mm Mono Pocket": {
 					"edge": "45mm",
 					"size": "1 Finger"
 				},
-				"holdtype": {
+				"25mm Pocket": {
 					"edge": "25mm",
 					"size": "2 Finger"
 				}
 			},
-			"row" :
+			"row4" :
 			{
-				"holdtype": {
+				"22mm Edge": {
 					"edge": "22mm",
 					"size": "4 Finger"
 				},
-				"holdtype": {
+				"15mm Edge": {
 					"edge": "15mm",
 					"size": "4 Finger"
 				},
-				"holdtype": {
+				"10mm Edge": {
 					"edge": "10mm",
 					"size": "4 Finger"
 				}

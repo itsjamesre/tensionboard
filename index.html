@@ -17,14 +17,25 @@
 	<div ng-app="myApp" ng-controller="myCtrl">
 		<h3>Set {{ set }}</h3>
 		<h3>Rep {{ rep }}</h3>
-		<h3><timer countdown="10" interval="1000" finish-callback="myFinishCallback()">{{countdown}}</timer></h3>
+		<h3><timer autostart="false" countdown="10" interval="1000" finish-callback="intervalCallback()">{{countdown}}</timer></h3>
 		<h3>Status {{status}}</h3>
 	</div>
 </div>
 
 <script>
 var app = angular.module("myApp", ["timer"]);
-app.controller("myCtrl", function($scope) {
+app.controller("myCtrl", function($scope, $http) {
+	$scope.tensionBoard = null;
+	$http
+	({
+      method: 'GET',
+      url: 'data/tension-board.json'
+  	}).then(function (success) {
+            $scope.tensionBoard = success.TensionBoard;
+    },function (error, data, status, headers, config) {
+        //  Do some error handling here
+    });
+
 	$scope.hangTime = 7;
     $scope.restRepTime = 2;
     $scope.restSetTime = 60;
@@ -32,7 +43,7 @@ app.controller("myCtrl", function($scope) {
     $scope.set = 1;
     $scope.rep = 1;
     $scope.status = "Hang";
-    $scope.myFinishCallback = function() {
+    $scope.intervalCallback = function() {
     	if ($scope.status == "Hang") {
     		if ($scope.rep == $scope.repMax) {
 		    	$scope.$broadcast('timer-add-cd-seconds', $scope.restSetTime);
