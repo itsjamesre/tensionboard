@@ -8,28 +8,45 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-  <script src="bower_components/angular-timer/dist/assets/js/angular-timer-bower.js"></script>
   <script src="bower_components/angular-timer/dist/assets/js/angular-timer-all.min.js"></script>
 </head>
 <body>
 
 <div class="container">
-  	<h1>My First Bootstrap Page</h1>
-  	<p>This is some text.</p> 
+  	<h1>Tension Board</h1>
 	<div ng-app="myApp" ng-controller="myCtrl">
-		{{ firstName + " " + lastName }}
-		<h3><timer countdown="10" interval="1000">{{countdown}}</timer></h3>
-		<button ng-click="add5Seconds()">Add 5 Seconds</button>
+		<h3>Set {{ set }}</h3>
+		<h3>Rep {{ rep }}</h3>
+		<h3><timer countdown="10" interval="1000" finish-callback="myFinishCallback()">{{countdown}}</timer></h3>
+		<h3>Status {{status}}</h3>
 	</div>
 </div>
 
 <script>
 var app = angular.module("myApp", ["timer"]);
 app.controller("myCtrl", function($scope) {
-    $scope.firstName = "John";
-    $scope.lastName = "Doe";
-    $scope.add5Seconds = function () {
-        $scope.$broadcast('timer-add-cd-seconds', 5);
+	$scope.hangTime = 7;
+    $scope.restRepTime = 2;
+    $scope.restSetTime = 60;
+    $scope.repMax = 6;
+    $scope.set = 1;
+    $scope.rep = 1;
+    $scope.status = "Hang";
+    $scope.myFinishCallback = function() {
+    	if ($scope.status == "Hang") {
+    		if ($scope.rep == $scope.repMax) {
+		    	$scope.$broadcast('timer-add-cd-seconds', $scope.restSetTime);
+		    	$scope.set++;
+		    	$scope.rep = 1;
+    		} else {
+		    	$scope.$broadcast('timer-add-cd-seconds', $scope.restRepTime);
+		    }
+	    	$scope.status = "Rest";
+    	} else {
+	    	$scope.$broadcast('timer-add-cd-seconds', $scope.hangTime);
+	    	$scope.rep++;
+	    	$scope.status = "Hang";    		
+    	}
     }
 });
 </script>
