@@ -100,7 +100,8 @@
 		{
 			"config" :
 			{
-				"setNum": 6
+				"setNum": 6,
+				"leadDelay": 5
 			},
 			"1" :
 			{
@@ -232,6 +233,80 @@
 					"edge": "35mm",
 					"size": "2 Finger",
 					"style": "First Fingers"	
+				}
+			}
+		},
+		"V8ish" :
+		{
+			"config" :
+			{
+				"setNum": 3,
+				"leadDelay": 5
+			},
+			"1" :
+			{
+				"config" :
+				{
+					"hangTime" : 7,
+					"restRepTime" : 2,
+					"restSetTime" : 5,
+					"repMax" : 2
+				},
+				"Left" : 
+				{
+					"edge": "20mm",
+					"size": "4 Finger",
+					"style": "Open"
+				},
+				"Right" :
+				{
+					"edge": "20mm",
+					"size": "4 Finger",
+					"style": "Open"	
+				}
+			},
+			"2" :
+			{
+				"config" :
+				{
+					"hangTime" : 7,
+					"restRepTime" : 5,
+					"restSetTime" : 120,
+					"repMax" : 2
+				},
+				"Left" : 
+				{
+					"edge": "7mm",
+					"size": "4 Finger",
+					"style": "Open"
+				},
+				"Right" :
+				{
+					"edge": "35mm",
+					"size": "4 Finger",
+					"style": "Open"	
+				}
+			},
+			"3" :
+			{
+				"config" :
+				{
+					"hangTime" : 7,
+					"restRepTime" : 5,
+					"restSetTime" : 120,
+					"repMax" : 2
+				},
+				"Left" : 
+				{
+					"edge": "35mm",
+					"size": "4 Finger",
+					"style": "Open"
+				},
+				"Right" :
+				{
+					"edge": "7mm",
+					"size": "4 Finger",
+					"style": "Open"	
 				}
 			}
 		}

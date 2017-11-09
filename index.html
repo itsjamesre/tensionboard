@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/main.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
@@ -13,19 +14,22 @@
 <body>
 
 <div class="container">
-  	<h1>Tension Board</h1>
-	<div ng-app="myApp" ng-controller="myCtrl">
+	<div class=".col-xs-4" ng-app="myApp" ng-controller="myCtrl">
 		  	<button ng-click="loadWorkout()" ng-repeat="(key, value) in workouts ">
 		    	{{ key }}
 		  	</button> 
-		<h3>Set {{ set }}</h3>
-		<h3>Rep {{ rep }}</h3>
-		<h3><timer autostart="false" countdown="10" interval="1000" finish-callback="intervalCallback()">{{countdown}}</timer></h3>
-		<h3>Status {{status}}</h3>
-		<h3>Left Hand {{ leftHand }}</h3>
-		<h3>Right Hand {{ rightHand }}</h3>
-        <button ng-click="startTimer()" ng-disabled="timerRunning">Start Timer</button>
-        <button ng-click="stopTimer()" ng-disabled="!timerRunning">Stop Timer</button>
+		<h4>Set {{ set }} of {{ setMax }}</h4>
+		<h4>Rep {{ rep }} of {{ repMax }}</h4>
+		<h4><timer autostart="false" countdown="5" interval="1000" finish-callback="intervalCallback()">{{millis | date:'mm:ss'}}</timer></h4>
+		<h1>{{status}}</h1>
+		<strong>Left Hand</strong>
+		<h4>{{ leftHand }}</h4>
+		<strong>Right Hand</strong>
+		<h4>{{ rightHand }}</h4><br />
+        <button ng-click="startTimer()" ng-disabled="!workoutLoaded + timerRunning">Start Timer</button>
+        <button ng-click="stopTimer()" ng-disabled="!timerRunning">Stop Timer</button><br />
+        <button ng-click="nextRep()" ng-disabled="lastRep">Next Rep</button>
+        <button ng-click="nextSet()" ng-disabled="lastSet">Next Set</button>
 	</div>
 </div>
 
@@ -33,9 +37,12 @@
 var app = angular.module("myApp", ["timer"]);
 app.controller("myCtrl", function($scope, $http) {
 	$scope.firstRun = true;
+	$scope.timerRunning = false;
 	$scope.workoutLoaded = false;
 	$scope.tensionBoard = null;
 	$scope.workouts = null;
+	$scope.lastSet = true;
+	$scope.lastRep = true;
 	$http
 	({
       method: 'GET',
@@ -43,27 +50,32 @@ app.controller("myCtrl", function($scope, $http) {
   	}).then(function (success) {
             $scope.tensionBoard = success.TensionBoard;
             $scope.workouts = success.data.Workouts;
-            $scope.workoutLoaded = true;
     },function (error, data, status, headers, config) {
     	console.log(error);
     });
 
-    $scope.set = 1;
-    $scope.rep = 1;
-    $scope.leftHand = null;
-    $scope.rightHand = null;
-    $scope.status = "Wait for it...";
-
 	$scope.loadWorkout = function(){
 		console.log("Loaded " + this.key);
+		$scope.endTimer();
 		$scope.theWorkout = $scope.workouts[this.key];
+
+        $scope.$broadcast('timer-set-countdown-seconds', $scope.theWorkout.config.leadDelay);
+
+		$scope.workoutLoaded = true;
+	    $scope.set = 1;
+	    $scope.rep = 1;
+	    $scope.leftHand = null;
+	    $scope.rightHand = null;
+	    $scope.status = "Wait for it...";
+	    $scope.setMax = $scope.theWorkout.config.setNum;
+	    $scope.repMax = $scope.theWorkout[$scope.set].config.repMax;
 	}
 
     $scope.intervalCallback = function() {
     	if (!$scope.firstRun && $scope.workoutLoaded) {
-    		if ($scope.set < $scope.theWorkout.config.setNum) {
+    		if ($scope.set <= $scope.setMax) {
 		    	if ($scope.status == "Hang") {
-		    		if ($scope.rep == $scope.theWorkout[$scope.set].config.repMax) {
+		    		if ($scope.rep == $scope.repMax) {
 				    	$scope.$broadcast('timer-add-cd-seconds', $scope.theWorkout[$scope.set].config.restSetTime);
 				    	$scope.set++;
 				    	console.log("Set: "+$scope.set);
@@ -71,12 +83,7 @@ app.controller("myCtrl", function($scope, $http) {
 		    		} else {
 				    	$scope.$broadcast('timer-add-cd-seconds', $scope.theWorkout[$scope.set].config.restRepTime);
 				    }
-				    $scope.leftHand = $scope.theWorkout[$scope.set].Left.edge + " | " +
-				    	$scope.theWorkout[$scope.set].Left.size + " | " +
-				    	$scope.theWorkout[$scope.set].Left.style;
-				    $scope.leftHand = $scope.theWorkout[$scope.set].Left.edge + " | " +
-				    	$scope.theWorkout[$scope.set].Left.size + " | " +
-				    	$scope.theWorkout[$scope.set].Left.style
+				    $scope.updateHands();
 			    	$scope.status = "Rest";
 		    	} else {
 			    	$scope.$broadcast('timer-add-cd-seconds', $scope.theWorkout[$scope.set].config.hangTime);
@@ -93,26 +100,75 @@ app.controller("myCtrl", function($scope, $http) {
 	    $scope.firstRun = false;
     }
 
-    $scope.timerRunning = false;
     $scope.startTimer = function (){
     	if ($scope.workoutLoaded) {
     		console.log("Set: "+$scope.set);
-    		$scope.leftHand = $scope.theWorkout[$scope.set].Left.edge + " | " +
-		    	$scope.theWorkout[$scope.set].Left.size + " | " +
-		    	$scope.theWorkout[$scope.set].Left.style
-		    $scope.rightHand = $scope.theWorkout[$scope.set].Left.edge + " | " +
-		    	$scope.theWorkout[$scope.set].Left.size + " | " +
-		    	$scope.theWorkout[$scope.set].Left.style
-	        $scope.$broadcast('timer-start');
-	        $scope.timerRunning = true;
+		    $scope.lastSet = false;
+		    $scope.lastRep = false;
+    		$scope.updateHands();
+	        $scope.beginTimer();
        }
     };
 
     $scope.stopTimer = function (){
     	if ($scope.workoutLoaded) {
-	        $scope.$broadcast('timer-stop');
-	        $scope.timerRunning = false;
+	        $scope.endTimer();
        }
+    };
+
+    $scope.nextRep = function() {
+    	if ($scope.timerRunning) {
+    		if ($scope.rep == $scope.repMax) {
+    			if ($scope.set != $scope.setMax) {
+			    	$scope.$broadcast('timer-set-countdown-seconds', $scope.theWorkout[$scope.set].config.restSetTime);
+			    	$scope.set++;
+			    	$scope.rep = 0;
+		    		$scope.status = "Rest";
+			    	$scope.updateHands();
+		    	} else {
+			    	$scope.lastRep = true;
+		    	}
+		    } else {
+		    	$scope.rep++;
+	    		$scope.$broadcast('timer-set-countdown-seconds', $scope.theWorkout[$scope.set].config.restRepTime);
+	    		$scope.status = "Rest";
+		    }
+    	}
+    };
+
+    $scope.nextSet = function() {
+    	if ($scope.timerRunning) {
+	    	$scope.set++;
+			if ($scope.set < $scope.setMax) {
+		    	$scope.$broadcast('timer-set-countdown-seconds', $scope.theWorkout[$scope.set].config.restSetTime);
+		    	$scope.rep = 0;
+	    		$scope.status = "Rest";
+		    	$scope.updateHands();
+	    	} else {
+		    	$scope.lastSet = true;
+	    	}
+	    }
+    };
+
+    // Utility Functions //
+
+    $scope.endTimer = function() {
+    	$scope.$broadcast('timer-stop');
+    	$scope.timerRunning = false;
+    };
+
+    $scope.beginTimer = function() {
+    	$scope.$broadcast('timer-start');
+        $scope.timerRunning = true;
+    };
+
+    $scope.updateHands = function() {
+		$scope.leftHand = $scope.theWorkout[$scope.set].Left.edge + " | " +
+	    	$scope.theWorkout[$scope.set].Left.size + " | " +
+	    	$scope.theWorkout[$scope.set].Left.style;
+	    $scope.rightHand = $scope.theWorkout[$scope.set].Right.edge + " | " +
+	    	$scope.theWorkout[$scope.set].Right.size + " | " +
+	    	$scope.theWorkout[$scope.set].Right.style;
     };
 });
 </script>
