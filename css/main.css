@@ -7,5 +7,79 @@ body {
     text-align: center;
 }
 button {
-	color: #333;
+    display: block;
+    width: 100%;
+    border: none;
+    background-color: #fff;
+    font-size: 2em;
+    color: #000;
+    padding-top: 12px;
 }
+button:disabled {
+	color: #ccc;
+	background-color: #222;
+}
+button:hover {
+	background-color: #ccc;
+}
+.container {
+	height: 612px;
+}
+#hands {
+	height: 45%;
+}
+#hands h2 {
+	margin-top: 60px;
+}
+#hands h4.set {
+	float: left;
+    position: relative;
+}
+#hands h4.rep {
+	float: right;
+    position: relative;
+}
+#hands h4.rep, #hands h4.set {
+    margin-top: 45px;
+}
+#hands h2 {
+	font-size: 5em;
+}
+#hands h3 {
+	margin: 0px;
+}
+#hands .left-hand {
+    background-color: yellow;
+    color: mediumaquamarine;
+    height: 100%;
+}
+#hands .right-hand {
+    background-color: mediumaquamarine;
+    color: yellow;
+    height: 100%;
+}
+.the-timer {
+	font-size: 5em;
+	height: 80px;
+	background-color: black;
+}
+.the-timer timer { display: inline-block; color: white;}
+button.left-button, button.right-button {
+	display: inline-block;
+    font-size: .25em;
+    width: 20%;
+    height: 28px;
+    padding: 5px;
+    margin-top: 25px;
+}
+button.left-button { float: left; }
+button.right-button { float: right; }
+.timer-status {
+	font-size: 3.5em;
+	height: 55px;
+	background-color: red;
+	color: white;
+}
+.timer-status button.left-button, .timer-status button.right-button { margin-top: 14px; font-size: .35em; }
+
+
